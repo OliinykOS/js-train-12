@@ -323,13 +323,16 @@ console.log(
  */
 function getFilteredDictionarySize(dictionary, filter) {
     // Створюємо новий Map об'єкт для зберігання елементів, що відповідають фільтру
+    let filteredDictionary = new Map();
     // Використовуємо for...of цикл разом з методом entries() для перебору пар [ключ, значення] словника
-    // Якщо пара [ключ, значення] відповідає фільтру, додаємо її до фільтрованого словника
-    // Повертаємо розмір фільтрованого словника, використовуючи властивість size
-    let newMap = new Map();
-    for (const element of dictionary.entries()) {
+    for (let [key, value] of dictionary.entries()) {
+        // Якщо пара [ключ, значення] відповідає фільтру, додаємо її до фільтрованого словника
+        if (filter(key, value)) {
+            filteredDictionary.set(key, value);
+        }
     }
-    return newMap.size;
+    // Повертаємо розмір фільтрованого словника, використовуючи властивість size
+    return filteredDictionary.size;
 }
 
 console.log("Завдання: 9 ==============================");
@@ -356,10 +359,11 @@ console.log(
  */
 function sortByValues(dictionary) {
     // Конвертуємо словник в масив пар ключ-значення за допомогою оператора деструктурізації
+    let entries = [...dictionary.entries()];
     // Сортуємо масив пар ключ-значення за значеннями в порядку спадання
+    entries.sort((a, b) => b[1] - a[1]);
     // Конвертуємо відсортований масив пар ключ-значення назад у словник
-    let dictArr = Array.from(dictionary.entries());
-    let result = dictArr.sort();
+    return new Map(entries);
 }
 
 console.log("Завдання: 10 ==============================");
